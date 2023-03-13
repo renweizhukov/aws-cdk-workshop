@@ -19,7 +19,10 @@ export class HitCounter extends Construct {
         });
 
         this.handler = new lambda.Function(this, 'HitCounterHandler', {
-            runtime: lambda.Runtime.NODEJS_18_X,
+            // NodeJS 18.x runtime does not come with version 2 of AWS SDK, so
+            // we downgrade NodeJS to 16.x to avoid the import error: "Cannot
+            // find module 'aws-sdk'".
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'hitcounter.handler',
             code: lambda.Code.fromAsset('lambda'),
             environment: {
