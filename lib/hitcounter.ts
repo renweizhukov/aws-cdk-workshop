@@ -23,6 +23,7 @@ export class HitCounter extends Construct {
                 name: 'path',
                 type: dynamodb.AttributeType.STRING 
             },
+            encryption: dynamodb.TableEncryption.AWS_MANAGED,
             removalPolicy: RemovalPolicy.DESTROY
         });
 
