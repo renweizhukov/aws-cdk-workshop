@@ -1,5 +1,6 @@
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export interface HitCounterProps {
@@ -18,7 +19,11 @@ export class HitCounter extends Construct {
         super(scope, id);
 
         this.table = new dynamodb.Table(this, 'Hits', {
-            partitionKey: { name: 'path', type: dynamodb.AttributeType.STRING }
+            partitionKey: { 
+                name: 'path',
+                type: dynamodb.AttributeType.STRING 
+            },
+            removalPolicy: RemovalPolicy.DESTROY
         });
 
         this.handler = new lambda.Function(this, 'HitCounterHandler', {
